@@ -27,8 +27,8 @@ public class LoginService {
 	public Response validateLogin(Credential credentials) {
 		try {
 			if(credentials.getLogin().trim().isEmpty() || credentials.getPassword().trim().isEmpty()) {
-	    			throw new Exception("Informe o usuário e a senha.");
-	    		}
+	    		throw new Exception("Informe o usuário e a senha.");
+	    	}
 			
 			if(credentials.getLogin().contains("@")){
 				credentials.setLogin(credentials.getLogin().substring(0, credentials.getLogin().indexOf("@")));
@@ -52,15 +52,10 @@ public class LoginService {
 			User user = new User();
 			
 			if(this.loginIsStudent(credentials.getLogin())) {
-				user.setCode("");
 				user.setBarcode(dataLdap.get("carLicense"));
 				user.setDigit(this.mod11(user.getBarcode()));
 			} else {
-				if(dataLdap.get("carLicense") == null) {
-					user.setCode("");
-				} else {
-					user.setCode(dataLdap.get("carLicense"));
-				}
+				user.setCode(dataLdap.get("carLicense"));
 				user.setBarcode(dataLdap.get("pager"));
 				user.setDigit(this.mod11(user.getBarcode()));
 			}
